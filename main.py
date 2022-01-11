@@ -40,6 +40,8 @@ class main:
 
 #binding
 
+    self.master.bind('<Motion>', lambda z: self.__dropError__())
+
     self.btn_0.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'0'))
     self.btn_1.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'1'))
     self.btn_2.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'2'))
@@ -51,14 +53,15 @@ class main:
     self.btn_8.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'8'))
     self.btn_9.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'9'))
     self.btn_dot.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'.'))
-    self.btn_equall.bind('<Button-1>',lambda z: self.lbl_1.configure(text=eval(str(self.lbl_1.cget('text')))))
+    self.btn_equall.bind('<Button-1>',lambda z: self.__evalError__())
+
     self.btn_add.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'+'))
     self.btn_minus.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'-'))
     self.btn_times.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'*'))
     self.btn_divide.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(self.lbl_1.cget('text'))+'/'))
     self.btn_clear.bind('<Button-1>',lambda z: self.lbl_1.configure(text=''))
-    self.btn_percent.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(float(str(self.lbl_1.cget('text')))/100)))
-    self.btn_sqrt.bind('<Button-1>',lambda z: self.lbl_1.configure(text=str(math.sqrt(float(str(self.lbl_1.cget('text')))))))
+    self.btn_percent.bind('<Button-1>',lambda z: self.__percentError__())
+    self.btn_sqrt.bind('<Button-1>',lambda z: self.__sqrtError__())
     self.btn_off.bind('<Button-1>', lambda z:self.__onoff__(self.btn_off.cget('text')))
 
 #Gridding 
@@ -93,6 +96,9 @@ class main:
     self.btn_percent.grid(row=0,column=2,pady=(0,2))
     self.btn_clear.grid(row=0,column=3,padx=(10,5),pady=(0,2))
 
+
+# on/off
+
   def __onoff__(self,x):
     if x == 'Off':
       self.btn_0.configure(state='disabled')
@@ -117,7 +123,7 @@ class main:
       
       
 
-      self.lbl_1.configure(bg='grey')
+      self.lbl_1.configure(text='',bg='grey')
       self.btn_off.configure(text='On')
 
       
@@ -145,6 +151,32 @@ class main:
 
       self.lbl_1.configure(bg='white')
       self.btn_off.configure(text='Off')
+
+#Debugging
+
+  def __evalError__(self):
+    try:
+      self.lbl_1.configure(text=eval(str(self.lbl_1.cget('text'))))
+    except:
+      self.lbl_1.configure(text='Error')
+
+  def __sqrtError__(self):
+    try:
+      self.lbl_1.configure(text=str(math.sqrt(float(str(self.lbl_1.cget('text'))))))
+    except:
+      self.lbl_1.configure(text='Error')
+
+
+
+  def __percentError__(self):
+    try:
+      self.lbl_1.configure(text=str(float(str(self.lbl_1.cget('text')))/100))
+    except:
+      self.lbl_1.configure(text='Error')
+
+  def __dropError__(self):
+    if 'Error' in self.lbl_1.cget('text'):
+      self.lbl_1.configure(text='')
     
 
 
