@@ -1,5 +1,9 @@
-import tkinter as tk
-import math
+try:
+  import tkinter as tk
+  import math
+  import re
+except: ImportError
+
 
 class main:
   def __init__(self,master):
@@ -64,6 +68,7 @@ class main:
     self.btn_sqrt.bind('<Button-1>',lambda z: self.__sqrtError__())
     self.btn_off.bind('<Button-1>', lambda z:self.__onoff__(self.btn_off.cget('text')))
 
+
 #Gridding 
 
     self.frm_0.grid(row=0,column=0,sticky='news')
@@ -95,6 +100,8 @@ class main:
     self.btn_sqrt.grid(row=0,column=1,pady=(0,2))
     self.btn_percent.grid(row=0,column=2,pady=(0,2))
     self.btn_clear.grid(row=0,column=3,padx=(10,5),pady=(0,2))
+
+    
 
 
 # on/off
@@ -156,7 +163,8 @@ class main:
 
   def __evalError__(self):
     try:
-      self.lbl_1.configure(text=eval(str(self.lbl_1.cget('text'))))
+      self.lbl_1.configure(text=eval(re.sub(r"((?<=^)|(?<=[^\.\d]))0+(\d+)", r"\1\2", str(self.lbl_1.cget('text')))))
+
     except:
       self.lbl_1.configure(text='Error')
 
@@ -175,10 +183,9 @@ class main:
       self.lbl_1.configure(text='Error')
 
   def __dropError__(self):
-    if 'Error' in self.lbl_1.cget('text'):
+    if 'Error' == self.lbl_1.cget('text'):
       self.lbl_1.configure(text='')
     
-
 
 
 
